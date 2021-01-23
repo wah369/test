@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 命名空间：使用全限定名绑定Mapper接口 -->
+<mapper namespace="org.example.mapper.UserMapper">
+    <!-- 定义结果集映射关系：绑定结果集字段和转换的java对象之间的关系 -->
+    <resultMap id="BaseResultMap" type="org.example.model.User">
+        <!-- 结果集字段和java对象属性的映射 -->
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="nickname" property="nickname" />
+        <result column="sex" property="sex" />
+        <result column="birthday" property="birthday" />
+        <result column="head" property="head" />
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+    <!-- 定义SQL语句：id绑定Mapper接口的方法名，parameterType绑定方法参数类型 -->
+    <select id="selectById" parameterType="java.lang.Integer"
+            resultMap="BaseResultMap">
+        select * from user where id=#{id}
+    </select>
+
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        select id,username,password,nickname,sex,birthday,head,create_time
+        from user
+        where username like #{username}
+        and id between #{sid} and #{eid}
+    </select>
+
+    <insert id="insert" parameterType="org.example.model.User"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into user(username,password,nickname,sex,birthday,head)
+            values
+        (
+            #{username},
+            #{password},
+            #{nickname},
+            #{sex},
+            #{birthday},
+            #{head}
+        )
+    </insert>
+</mapper>
